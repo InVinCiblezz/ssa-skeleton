@@ -30,7 +30,7 @@ public class ElasticSearch extends AwsSignedRestRequest {
             e.printStackTrace();
         }
     }
-    @// TODO: 2020/4/17 bulk
+    //@// TODO: 2020/4/17 bulk
     public void bulkDoc(SdkHttpMethod method,  Optional<Map<String, String>> params, Optional<JSONObject> body) {
         String path = System.getenv("ELASTIC_SEARCH_INDEX") + "/_bulk";
         String host = System.getenv("ELASTIC_SEARCH_HOST");
