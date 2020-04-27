@@ -51,7 +51,7 @@ public class Search {
 
         //elasticSearch
         ElasticSearch es = new ElasticSearch();
-        JSONObject results = es.searchDoc(SdkHttpMethod.GET, Optional.of(params), Optional.empty());
+        JSONObject results = es.searchApi(SdkHttpMethod.GET, Optional.of(params), Optional.empty());
 
         return Response.status(200).type("application/json").entity(results.toString(4))
                 // below header is for CORS

@@ -2,6 +2,7 @@ package edu.northwestern.ssa;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
+
 import software.amazon.awssdk.http.AbortableInputStream;
 import software.amazon.awssdk.http.HttpExecuteResponse;
 import software.amazon.awssdk.http.SdkHttpFullResponse;
@@ -18,37 +19,39 @@ public class ElasticSearch extends AwsSignedRestRequest {
      */
     public ElasticSearch() {super("es");}
 
-    public JSONObject searchDoc(SdkHttpMethod method,  Optional<Map<String, String>> params, Optional<JSONObject> query){
+    public JSONObject searchApi(SdkHttpMethod method,  Optional<Map<String, String>> params, Optional<JSONObject> query){
         String index = Config.getParam("ELASTIC_SEARCH_INDEX");
-        String path = index + "/_search";
         String host = Config.getParam("ELASTIC_SEARCH_HOST");
+        String path = index + "/_search";
 
         JSONObject results = new JSONObject();
+        JSONArray articles = new JSONArray();
+        int returned_results = 0, total_results = 0;
+
         try {
             HttpExecuteResponse response = restRequest(method, host, path, params, query);
             if (response.httpResponse().isSuccessful()) {
-                //System.out.println("ok");
                 AbortableInputStream inputStream = response.responseBody().get();
                 JSONObject body = new JSONObject(IoUtils.toUtf8String(inputStream));
-                JSONArray articles = new JSONArray();
 
                 body = body.getJSONObject("hits");
+                total_results = body.getJSONObject("total").getInt("value");
                 JSONArray hits = body.getJSONArray("hits");
-                int returned_results = hits.length();
-                int total_results = body.getJSONObject("total").getInt("value");
+                returned_results = hits.length();
                 for (int i = 0; i < returned_results; i++)
                     articles.put(hits.getJSONObject(i).getJSONObject("_source"));
-
-                results.put("returned_results", returned_results);
-                results.put("total_results", total_results);
-                results.put(Config.getParam(index, articles);
             }
             close();
         } catch (IOException e) {
             e.printStackTrace();
-        }
+        } /*finally {
+            close();
+        }*/
+
+        results.put("returned_results", returned_results);
+        results.put("total_results", total_results);
+        results.put(index, articles);
 
         return results;
     }
-
 }
