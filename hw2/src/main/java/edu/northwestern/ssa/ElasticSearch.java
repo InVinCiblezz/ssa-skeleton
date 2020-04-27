@@ -19,7 +19,8 @@ public class ElasticSearch extends AwsSignedRestRequest {
     public ElasticSearch() {super("es");}
 
     public JSONObject searchDoc(SdkHttpMethod method,  Optional<Map<String, String>> params, Optional<JSONObject> query){
-        String path = Config.getParam("ELASTIC_SEARCH_INDEX") + "/_search";
+        String index = Config.getParam("ELASTIC_SEARCH_INDEX");
+        String path = index + "/_search";
         String host = Config.getParam("ELASTIC_SEARCH_HOST");
 
         JSONObject results = new JSONObject();
@@ -40,7 +41,7 @@ public class ElasticSearch extends AwsSignedRestRequest {
 
                 results.put("returned_results", returned_results);
                 results.put("total_results", total_results);
-                results.put(Config.getParam("ELASTIC_SEARCH_INDEX"), articles);
+                results.put(Config.getParam(index, articles);
             }
             close();
         } catch (IOException e) {
