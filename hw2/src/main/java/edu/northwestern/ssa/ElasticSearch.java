@@ -35,12 +35,12 @@ public class ElasticSearch extends AwsSignedRestRequest {
                 JSONArray hits = body.getJSONArray("hits");
                 int returned_results = hits.length();
                 int total_results = body.getJSONObject("total").getInt("value");
-                for (int i = 0; i < returned_results; i ++)
+                for (int i = 0; i < returned_results; i++)
                     articles.put(hits.getJSONObject(i).getJSONObject("_source"));
 
                 results.put("returned_results", returned_results);
                 results.put("total_results", total_results);
-                results.put("articles", articles);
+                results.put(Config.getParam("ELASTIC_SEARCH_INDEX"), articles);
             }
             close();
         } catch (IOException e) {
