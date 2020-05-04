@@ -10,8 +10,8 @@
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
   <meta http-equiv="X-UA-Compatible" content="ie=edge">
   <title>React Local</title>
-  <script type="application/javascript" src="https://unpkg.com/react@16.0.0/umd/react.development.js"></script>
-  <script type="application/javascript" src="https://unpkg.com/react-dom@16.0.0/umd/react-dom.development.js"></script>
+  <script type="application/javascript" src="https://unpkg.com/react@16.0.0/umd/react.production.min.js"></script>
+  <script type="application/javascript" src="https://unpkg.com/react-dom@16.0.0/umd/react-dom.production.min.js"></script>
   <script type="application/javascript" src="https://unpkg.com/babel-standalone@6.26.0/babel.js"></script>
 
 
@@ -289,8 +289,8 @@
       return ['', ''];
     if(u.startsWith('https://'))
       u = u.slice(8);
-      if(u.startsWith('http://'))
-        u = u.slice(7);
+    if(u.startsWith('http://'))
+      u = u.slice(7);
     let pos = u.indexOf('/');
     if(pos == -1)
       return [u, ''];
@@ -318,7 +318,6 @@
 
     render() {
       let [firstUrl, secondUrl] = parseUrl(this.props.url);
-
       //handle highlight of keyword
       let title = this.props.title;
       let txt = this.props.txt;
@@ -369,6 +368,7 @@
         current: 1,
         //goValue:'',
         totalPage:'0',
+        listItems: ''
       };
     }
     /*
@@ -393,8 +393,7 @@
 
     //e.g. http://ssa-hw2-backend.stevetarzia.com/api/search?query=hello
     searchTerm = (page) => {
-      if(isNaN(page))
-        page = 1;
+      if(isNaN(page)) page = 1;
       console.log(this.state.inputText);
       let searchUrl = 'http://ssa-hw2-backend.stevetarzia.com/api/search?query='
       + this.state.inputText
@@ -417,8 +416,15 @@
           current: page,
           searches: json.articles,
           totalNum: json.total_results,
-          totalPage: Math.round(json.total_results / 10)
-        })
+          totalPage: Math.round(json.total_results / 10),
+        });
+
+        var tempItems = this.state.searches.map((article) => {
+          return (<SearchPost keyword={this.state.inputText} txt={article.txt} title={article.title} url={article.url} />)
+        });
+        this.setState({
+          listItems: tempItems
+        });
       }
     };
 
@@ -453,20 +459,22 @@
    };
 
     render() {
-
+      /*
       const listItems = this.state.searches.map((article) => {
         return (<SearchPost keyword={this.state.inputText} txt={article.txt} title={article.title} url={article.url} />)
       });
+      */
 
       const languageItems = languageOptionsons.map((language) => {
         return <option value={language.value}>{language.text}</option>
       });
+      //const listItems = this.state.listItems;
 
       return (
         <div className="app">
 
           <form className="search-container" onSubmit={this.handleFormSubmit}>
-            <img className="icon" src={'https://lh3.googleusercontent.com/x2UQ2LeBH5mWDaVTPbU0ood3q_2NXMjNr2Dp9_k8QfEl_4zaxWe97ItkBK0CphpoWrlq2pzGLhiumyqFgT5z=w3360-h990'}/>
+            <img className="icon" src={'https://ik.imagekit.io/rylnaye185/animals_Tgc0apGbb.png'}/>
             <input type="text" onKeyDown={this.handleKeyDown} onChange={this.handleInputChange} id="search-bar" placeholder="Search by content, language or date"/>
 
             <a href="#" onClick={this.searchTerm}>
@@ -493,7 +501,7 @@
 
             <main className="sui-layout-main" style={{flex: 1, marginLeft: '50px', width: '800px'}}>
               <div id="post-container">
-                {listItems}
+                {this.state.listItems}
               </div>
               <PageComponent  total={this.state.totalNum}
                               current={this.state.current}
