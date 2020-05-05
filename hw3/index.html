@@ -9,7 +9,7 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
   <meta http-equiv="X-UA-Compatible" content="ie=edge">
-  <title>React Local</title>
+  <title>Big Dipper</title>
   <script type="application/javascript" src="https://unpkg.com/react@16.0.0/umd/react.production.min.js"></script>
   <script type="application/javascript" src="https://unpkg.com/react-dom@16.0.0/umd/react-dom.production.min.js"></script>
   <script type="application/javascript" src="https://unpkg.com/babel-standalone@6.26.0/babel.js"></script>
@@ -105,6 +105,11 @@
     }
     .sui-layout-main {
       padding: 32px 0 32px 0px;
+    }
+    .sui-layout-main {
+      flex: 1;
+      margin-left:  50px;
+      width: 800px;
     }
     .prev, .prev-disable {
       float: left;
@@ -227,7 +232,8 @@
   <script type="text/babel">
   // Obtain the root
   const rootElement = document.getElementById('root')
-
+  const monkeyIcon = 'https://ik.imagekit.io/rylnaye185/animals_Tgc0apGbb.png';
+  //<a href="https://www.flaticon.com/authors/freepik" title="Freepik">Freepik</a> from <a href="https://www.flaticon.com/" title="Flaticon">www.flaticon.com</a>
   const maximalPage = 5;
   const maximalUrlLength = 80;
   const languageOptionsons = [
@@ -454,23 +460,17 @@
    };
 
     render() {
-      /*
-      const listItems = this.state.searches.map((article) => {
-        return (<SearchPost keyword={this.state.inputText} txt={article.txt} title={article.title} url={article.url} />)
-      });
-      */
 
       const languageItems = languageOptionsons.map((language) => {
         return <option value={language.value}>{language.text}</option>
       });
-      //const listItems = this.state.listItems;
 
       return (
         <div className="app">
 
           <form className="search-container" onSubmit={this.handleFormSubmit}>
-            <img className="icon" src={'https://ik.imagekit.io/rylnaye185/animals_Tgc0apGbb.png'}/>
-            <input type="text" onKeyDown={this.handleKeyDown} onChange={this.handleInputChange} id="search-bar" placeholder="Search by content, language or date"/>
+            <img className="icon" src={'http://getdrawings.com/free-icon/constellation-icon-53.png'}/>
+            <input type="text" onKeyDown={this.handleKeyDown} onChange={this.handleInputChange} id="search-bar" placeholder="Search by content, language or date from ocean of stars"/>
 
             <a href="#" onClick={this.searchTerm}>
             <img className="search-icon" src={'http://www.endlessicons.com/wp-content/uploads/2012/12/search-icon.png'}/>
@@ -494,7 +494,7 @@
 
             </aside>
 
-            <main className="sui-layout-main" style={{flex: 1, marginLeft: '50px', width: '800px'}}>
+            <main className="sui-layout-main">
               <div id="post-container">
                 {this.state.listItems}
               </div>
@@ -509,7 +509,7 @@
               />
               <footer>
               <p className="copyright">
-              Icons made by <a href="https://www.flaticon.com/authors/freepik" title="Freepik">Freepik</a> from <a href="https://www.flaticon.com/" title="Flaticon">www.flaticon.com</a>
+              Icons from <a href="http://getdrawings.com/constellation-icon">Constellation Icon</a>
               </p>
               </footer>
             </main>
