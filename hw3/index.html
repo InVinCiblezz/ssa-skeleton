@@ -248,8 +248,9 @@
       let pageNum = [];
       let totalPage = _this.props.totalPage;
       let cur = _this.props.current;
-      let end = Math.min(maximalPage + cur - 1, totalPage);
-      let start = (end - cur >= maximalPage - 1) ? cur : ((end - maximalPage) > 0 ? end - maximalPage: 1);
+      let start = Math.max(cur - 2, 1);
+      let end = start + Math.min(maximalPage - 1, totalPage - start);
+      start = Math.min(start, end - maximalPage + 1);
 
       for (; start <= end; start++) {
         pageNum.push(start);
@@ -359,7 +360,6 @@
       super(props);
       this.state = {
         inputText: '',
-        searches: [{}],
         language: 'en',
         offset: 0,
         count: 10,
@@ -411,19 +411,14 @@
       req.send()
       req.onload = () => {
         let json = JSON.parse(req.responseText);
-        //console.log(json.articles);
-        this.setState({
-          current: page,
-          searches: json.articles,
-          totalNum: json.total_results,
-          totalPage: Math.round(json.total_results / 10),
-        });
-
-        var tempItems = this.state.searches.map((article) => {
+        var tempItems = json.articles.map((article) => {
           return (<SearchPost keyword={this.state.inputText} txt={article.txt} title={article.title} url={article.url} />)
         });
         this.setState({
-          listItems: tempItems
+          current: page,
+          totalNum: json.total_results,
+          totalPage: Math.round(json.total_results / 10),
+          listItems: tempItems,
         });
       }
     };
@@ -487,12 +482,12 @@
 
               <fieldset className="sui-facet">
                 <legend className="little-title">Date Established</legend>
-                <input type="date" name="date" id="date" value={this.state.date} onChange={this.handleDateChange.bind(this)}/>
+                <input type="date" name="date" id="date" value={this.state.date} onChange={this.handleDateChange}/>
               </fieldset>
 
               <fieldset className="sui-facet">
                 <legend className="little-title">Language</legend>
-                <select name="language-list" form="search-bar" value={this.state.language} onChange={this.handleLanguageChange.bind(this)} >
+                <select name="language-list" form="search-bar" value={this.state.language} onChange={this.handleLanguageChange} >
                       {languageItems};
                 </select>
               </fieldset>
