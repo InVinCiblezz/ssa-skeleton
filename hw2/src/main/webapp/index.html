@@ -257,7 +257,6 @@
       let start = Math.max(cur - 2, 1);
       let end = start + Math.min(maximalPage - 1, totalPage - start);
       start = Math.min(start, end - maximalPage + 1);
-      start = Math.max(start, 0);
 
       for (; start <= end; start++) {
         pageNum.push(start);
@@ -402,7 +401,7 @@
     searchTerm = (page) => {
       if(isNaN(page)) page = 1;
       console.log(this.state.inputText);
-      let searchUrl = 'http://ssa-hw2-backend.stevetarzia.com/api/search?query='
+      let searchUrl = 'http://bigdipper-env.eba-dqcpryf5.us-east-1.elasticbeanstalk.com/api/search?query='
       + this.state.inputText
       + "&count=" + this.state.count
       + '&offset=' + (page - 1) * this.state.count;
@@ -470,9 +469,7 @@
         <div className="app">
 
           <form className="search-container" onSubmit={this.handleFormSubmit}>
-            <a href="#">
-              <img className="icon" src={'http://getdrawings.com/free-icon/constellation-icon-53.png'}/>
-            </a>
+            <img className="icon" src={'http://getdrawings.com/free-icon/constellation-icon-53.png'}/>
             <input type="text" onKeyDown={this.handleKeyDown} onChange={this.handleInputChange} id="search-bar" placeholder="Search by content, language or date from ocean of stars"/>
 
             <a href="#" onClick={this.searchTerm}>
@@ -485,12 +482,12 @@
 
               <fieldset className="sui-facet">
                 <legend className="little-title">Date Established</legend>
-                <input type="date" name="date" id="date" value={this.state.date} onChange={this.handleDateChange.bind(this)}/>
+                <input type="date" name="date" id="date" value={this.state.date} onChange={this.handleDateChange}/>
               </fieldset>
 
               <fieldset className="sui-facet">
                 <legend className="little-title">Language</legend>
-                <select name="language-list" form="search-bar" value={this.state.language} onChange={this.handleLanguageChange.bind(this)} >
+                <select name="language-list" form="search-bar" value={this.state.language} onChange={this.handleLanguageChange} >
                       {languageItems};
                 </select>
               </fieldset>
