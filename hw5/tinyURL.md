@@ -16,7 +16,7 @@ Clients interact with the service through a web browser. They might start by vis
 
 **Deployment environment**: AWS Elastic Beanstalk, with a load balancer and auto-scaling of the Tomcat instances.
 
-The backend is a single stateless Java application. It response to several kinds of requests. Requests for static HTML, CSS, JS, and image files are handled by bundling those files directly [in the war file (链接到外部网站。)](https://docs.oracle.com/javaee/5/tutorial/doc/bnadx.html).
+The backend is a single stateless Java application. It response to several kinds of requests. Requests for static HTML, CSS, JS, and image files are handled by bundling those files directly [in the war file](https://docs.oracle.com/javaee/5/tutorial/doc/bnadx.html).
 
 **Scalablility**:
 1. Different Server keeps different initial value for the tiny URL.
